@@ -1,15 +1,16 @@
 import { Login, Logout } from '@/api/user'
 import { getToken, setToken, removeToken, setUserName, removeUserName } from '@/utils/auth'
-import { resetRouter } from '@/router'
+// import { resetRouter } from '@/router'
 
 const getDefaultState = () => {
   return {
     token: getToken(),
     name: '',
-    avatar: ''
+    avatar: '',
+    roles: [],
+    buttonPermission: []
   }
 }
-
 const state = getDefaultState()
 
 const mutations = { // 必须的  同步 没有回调处理事情
@@ -24,6 +25,12 @@ const mutations = { // 必须的  同步 没有回调处理事情
   },
   SET_AVATAR: (state, avatar) => {
     state.avatar = avatar
+  },
+  SET_ROLES(state, value){
+      state.roles = value;
+  },
+  SET_BUTTON(state, value){
+      state.buttonPermission = value;
   }
 }
 
@@ -57,7 +64,29 @@ const actions = { // 可以回调处理事情
         reject(error);
       });
     })
-  }
+  },
+  // 获取用户信息
+  GetInfo({
+    commit,
+    state
+  }) {
+    return new Promise((resolve, reject) => {
+      getInfo(state.token).then(response => {
+        const data = response.data
+        if (data.roles && data.roles.length > 0) { // 验证返回的roles是否是一个非空数组
+          commit('SET_ROLES', data.roles)
+        } else {
+          reject('getInfo: roles must be a non-null array !')
+        }
+        commit('SET_NAME', data.sysUser.username)
+        commit('SET_AVATAR', data.sysUser.avatar)
+        commit('SET_PERMISSIONS', data.permissions)
+        resolve(response.data)
+      }).catch(error => {
+        reject(error)
+      })
+    })
+  },
 }
 
 export default {

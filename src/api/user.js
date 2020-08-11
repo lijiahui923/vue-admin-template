@@ -30,3 +30,12 @@ export function Logout(data = {}){
         data
     })
 }
+
+// 获取用户权限
+export function GetUserRoles(data = {}){
+    return service.request({
+        method: "post",
+        url: "/userRole/",
+        data
+    })
+}

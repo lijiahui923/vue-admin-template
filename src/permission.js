@@ -3,7 +3,7 @@ import store from './store'
 import { Message } from 'element-ui'
 import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css' // progress bar style
-import { getToken } from '@/utils/auth' // get token from cookie
+import { getToken, removeToken, removeUserName } from '@/utils/auth' // get token from cookie
 import getPageTitle from '@/utils/get-page-title'
 
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
@@ -27,14 +27,25 @@ router.beforeEach(async(to, from, next) => {
   if (hasToken) {// 判断是否有token
     if (to.path === '/login') {
       // if is logged in, redirect to the home page
-      next({ path: '/' })
-      NProgress.done()
+      removeToken();
+      removeUserName();
+      store.commit("user/SET_TOKEN", '');
+      store.commit("user/SET_NAME", '');
+      next({ path: '/' });
+      NProgress.done();
     } else {
-      const hasGetUserInfo = store.getters.name
-      if (hasGetUserInfo) {// 判断当前用户是否已拉取完user_info信息
-        next()
-      } else {
-        try {
+      // const hasGetUserInfo = store.getters.name;
+      // if (hasGetUserInfo) {// 判断当前用户是否已拉取完user_info信息
+      //   next()
+      // } else {
+        // try {
+          // 获取用户的色
+          // 动态分配路由权限
+          /**
+           * 1、什么时候处理动态路由
+           * 2、以什么条件处理
+           * roles[]
+           */
           // get user info
           // await store.dispatch('user/getInfo') // 拉取info
           // 获取用户的信息例如角色什么的
@@ -43,15 +54,38 @@ router.beforeEach(async(to, from, next) => {
           //    store.dispatch("GetMenu").then(data => {
           //      initMenu(router, data);
           //    });
-          next()
-        } catch (error) {
-          // remove token and go to login page to re-login
-          await store.dispatch('user/resetToken')
-          Message.error(error || 'Has Error')
-          next(`/login?redirect=${to.path}`)
-          NProgress.done()
-        }
-      }
+          // next()
+          if(store.getters.roles.length === 0) {
+            store.dispatch('permission/GetRoles').then(response => {
+                let role = response.role;
+                console.log(role);
+                let button = response.button;
+                let btnPerm = response.btnPerm;
+                store.commit("user/SET_ROLES", role);
+                store.commit("user/SET_BUTTON", btnPerm);
+                // 存储角色 
+                store.dispatch('permission/createRouter', role).then( _ => {
+                  let addRouters = store.getters.addRouters;
+                  let allRouters = store.getters.allRouters;
+                  console.log(addRouters);
+                    // 路由更新
+                    router.options.routes = allRouters;
+                    // 添加动态路由
+                    router.addRoutes(addRouters)
+                    next({ ...to, replace: true});
+                })
+            });
+          }else{
+              next();
+          }
+        // } catch (error) {
+        //   // remove token and go to login page to re-login
+        //   await store.dispatch('user/resetToken')
+        //   Message.error(error || 'Has Error')
+        //   next(`/login?redirect=${to.path}`)
+        //   NProgress.done()
+        // }
+      // }
     }
   } else {
     /* has no token*/
