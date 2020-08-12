@@ -58,8 +58,7 @@ router.beforeEach(async(to, from, next) => {
           if(store.getters.roles.length === 0) {
             store.dispatch('permission/GetRoles').then(response => {
                 let role = response.role;
-                console.log(role);
-                let button = response.button;
+                // let button = response.button;
                 let btnPerm = response.btnPerm;
                 store.commit("user/SET_ROLES", role);
                 store.commit("user/SET_BUTTON", btnPerm);
@@ -67,7 +66,7 @@ router.beforeEach(async(to, from, next) => {
                 store.dispatch('permission/createRouter', role).then( _ => {
                   let addRouters = store.getters.addRouters;
                   let allRouters = store.getters.allRouters;
-                  console.log(addRouters);
+                  // console.log(addRouters);
                     // 路由更新
                     router.options.routes = allRouters;
                     // 添加动态路由

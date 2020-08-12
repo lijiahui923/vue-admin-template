@@ -33,6 +33,11 @@ Vue.use(ElementUI, { locale })
 // 如果想要中文版 element-ui，按如下方式声明
 // Vue.use(ElementUI)
 
+// 自定义指令按钮权限
+import "./utils/buttonPerm";
+// 全局方法引入按钮权限 第一种方法
+// import { buttonPermission } from "./utils/buttonPermission";
+// Vue.prototype.btnPerm = buttonPermission;
 Vue.config.productionTip = false
 
 new Vue({

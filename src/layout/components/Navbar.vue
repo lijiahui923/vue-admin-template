@@ -2,12 +2,12 @@
   <div class="navbar">
     <hamburger :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" />
 
-    <!-- <breadcrumb class="breadcrumb-container" /> -->
+    <breadcrumb class="breadcrumb-container" />
 
     <div class="right-menu">
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
-          <img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar">
+          <img :src="`https://yanxuan.nosdn.127.net/889e0eec756ae0c1c4d05074393fcb5d.png`+'?imageView2/1/w/80/h/80'" class="user-avatar">
           <i class="el-icon-caret-bottom" />
         </div>
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
@@ -43,8 +43,7 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'sidebar',
-      'avatar'
+      'sidebar'
     ])
   },
   methods: {

@@ -1,18 +1,18 @@
 <template>
   <div class="dashboard-container">
-    <div class="dashboard-text">name: {{ name }}</div>
+    <div class="dashboard-text">name: {{ getUserName }}</div>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { getUserName } from '@/utils/auth' 
 
 export default {
   name: 'Dashboard',
-  computed: {
-    ...mapGetters([
-      'name'
-    ])
+  data() {
+    return {
+      getUserName: getUserName()
+    }
   }
 }
 </script>

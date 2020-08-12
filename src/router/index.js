@@ -23,7 +23,7 @@ export const defaultRoutesMap = [
     redirect: '/dashboard',
     children: [{
       path: 'dashboard',
-      name: '首页',
+      name: 'dashboard',
       component: () => import('@/views/dashboard/index'),
       meta: { title: '首页', icon: 'dashboard' }
     }]
