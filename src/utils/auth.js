@@ -1,4 +1,4 @@
-import cookie from 'js-cookie'
+import cookie from 'js-cookie';
 
 const adminToKen = "admin_token";
 const usernameKey = "user_name";

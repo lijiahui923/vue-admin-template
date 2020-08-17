@@ -10,7 +10,7 @@ function hasPermission (roles, router) {
 const state = {
     allRouters: defaultRoutesMap,
     addRouters: []
-}
+};
 
 const mutations = {
     SET_ROUTER(state, router) {
@@ -18,7 +18,7 @@ const mutations = {
         console.log(state.addRouters);
         state.allRouters = defaultRoutesMap.concat(router);
     }
-}
+};
 
 const actions = {
     // 获取用户的角色
@@ -49,24 +49,24 @@ const actions = {
                                 if(hasPremission(role, child)){
                                     return child;
                                 }
-                            })
+                            });
                             return item;
                         }
                         return item;
                     }
-                })
+                });
                 addRouters.push(asnycRouterMap[asnycRouterMap.length - 1]);
             }
             // 更新路由
             commit('SET_ROUTER', addRouters);
-            resolve()
-        })
+            resolve();
+        });
     }
-}
+};
 
 export default {
     namespaced: true,
     state,
     mutations,
     actions
-}
+};

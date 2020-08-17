@@ -1,28 +1,50 @@
 <template>
   <div class="navbar">
-    <hamburger :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" />
+    <hamburger
+      :is-active="sidebar.opened"
+      class="hamburger-container"
+      @toggleClick="toggleSideBar"
+    />
 
     <breadcrumb class="breadcrumb-container" />
 
     <div class="right-menu">
-      <el-dropdown class="avatar-container" trigger="click">
+      <el-dropdown
+        class="avatar-container"
+        trigger="click"
+      >
         <div class="avatar-wrapper">
-          <img :src="`https://yanxuan.nosdn.127.net/889e0eec756ae0c1c4d05074393fcb5d.png`+'?imageView2/1/w/80/h/80'" class="user-avatar">
+          <img
+            :src="`https://yanxuan.nosdn.127.net/889e0eec756ae0c1c4d05074393fcb5d.png`+'?imageView2/1/w/80/h/80'"
+            class="user-avatar"
+          >
           <i class="el-icon-caret-bottom" />
         </div>
-        <el-dropdown-menu slot="dropdown" class="user-dropdown">
+        <el-dropdown-menu
+          slot="dropdown"
+          class="user-dropdown"
+        >
           <router-link to="/">
             <el-dropdown-item>
               Home
             </el-dropdown-item>
           </router-link>
-          <a target="_blank" href="https://github.com/PanJiaChen/vue-admin-template/">
+          <a
+            target="_blank"
+            href="https://github.com/PanJiaChen/vue-admin-template/"
+          >
             <el-dropdown-item>Github</el-dropdown-item>
           </a>
-          <a target="_blank" href="https://panjiachen.github.io/vue-element-admin-site/#/">
+          <a
+            target="_blank"
+            href="https://panjiachen.github.io/vue-element-admin-site/#/"
+          >
             <el-dropdown-item>Docs</el-dropdown-item>
           </a>
-          <el-dropdown-item divided @click.native="logout">
+          <el-dropdown-item
+            divided
+            @click.native="logout"
+          >
             <span style="display:block;">Log Out</span>
           </el-dropdown-item>
         </el-dropdown-menu>
@@ -32,34 +54,34 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import Breadcrumb from '@/components/Breadcrumb'
-import Hamburger from '@/components/Hamburger'
+import { mapGetters } from 'vuex';
+import Breadcrumb from '@/components/Breadcrumb';
+import Hamburger from '@/components/Hamburger';
 
 export default {
-  components: {
-    Breadcrumb,
-    Hamburger
-  },
-  computed: {
-    ...mapGetters([
-      'sidebar'
-    ])
-  },
-  methods: {
-    toggleSideBar() {
-      this.$store.dispatch('app/toggleSideBar')
+    components: {
+        Breadcrumb,
+        Hamburger
     },
-    async logout() {
-      const response = await this.$store.dispatch('user/logout');
-      this.$message({
-          message: response.message,
-          type: "success"
-        })
-      this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+    computed: {
+        ...mapGetters([
+            'sidebar'
+        ])
+    },
+    methods: {
+        toggleSideBar() {
+            this.$store.dispatch('app/toggleSideBar');
+        },
+        async logout() {
+            const response = await this.$store.dispatch('user/logout');
+            this.$message({
+                message: response.message,
+                type: "success"
+            });
+            this.$router.push(`/login?redirect=${this.$route.fullPath}`);
+        }
     }
-  }
-}
+};
 </script>
 
 <style lang="scss" scoped>

@@ -24,5 +24,5 @@ export function columns () {
             prop: 'comingTitle',
             label: 'comingTitle'
         }
-    ]
+    ];
 }

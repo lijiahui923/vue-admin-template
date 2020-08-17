@@ -1,9 +1,17 @@
 <template>
   <div class="login-container">
-    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
-
+    <el-form
+      ref="loginForm"
+      :model="loginForm"
+      :rules="loginRules"
+      class="login-form"
+      auto-complete="on"
+      label-position="left"
+    >
       <div class="title-container">
-        <h3 class="title">Login Form</h3>
+        <h3 class="title">
+          Login Form
+        </h3>
       </div>
 
       <el-form-item prop="username">
@@ -37,7 +45,10 @@
           auto-complete="on"
           @keyup.enter.native="handleLogin"
         />
-        <span class="show-pwd" @click="showPwd">
+        <span
+          class="show-pwd"
+          @click="showPwd"
+        >
           <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
         </span>
       </el-form-item>
@@ -45,31 +56,46 @@
       <el-form-item prop="code">
         <el-row :gutter="10">
           <el-col :span="14">
-            <el-input v-model="loginForm.code" placeholder="Code" />
+            <el-input
+              v-model="loginForm.code"
+              placeholder="Code"
+            />
           </el-col>
           <el-col :span="10">
-            <el-button type="success" class="el-button-block" @click="getCodeFn()">code</el-button>
+            <el-button
+              type="success"
+              class="el-button-block"
+              @click="getCodeFn()"
+            >
+              code
+            </el-button>
           </el-col>
         </el-row>
       </el-form-item>
-      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">Login</el-button>
+      <el-button
+        :loading="loading"
+        type="primary"
+        style="width:100%;margin-bottom:30px;"
+        @click.native.prevent="handleLogin"
+      >
+        Login
+      </el-button>
 
       <div class="tips">
         <span style="margin-right:20px;">username: admin</span>
         <span> password: any</span>
       </div>
-
     </el-form>
   </div>
 </template>
 
 <script>
-import sha1 from 'js-sha1'
+import sha1 from 'js-sha1';
 // import { validUsername } from '@/utils/validate'
-import { GetSms } from '@/api/user'
+import { GetSms } from '@/api/user';
 export default {
-  name: 'Login',
-  data() {
+    name: 'Login',
+    data() {
     // const validateUsername = (rule, value, callback) => {
     //   if (!validUsername(value)) {
     //     callback(new Error('Please enter the correct user name'))
@@ -84,84 +110,84 @@ export default {
     //     callback()
     //   }
     // }
-    return {
-      loginForm: {
-        username: '410293095@qq.com',
-        password: 'wo123456789',
-        code: ''
-      },
-      loginRules: {
-        // username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-        // password: [{ required: true, trigger: 'blur', validator: validatePassword }]
-      },
-      loading: false,
-      passwordType: 'password',
-      redirect: undefined
-    }
-  },
-  watch: {
-    $route: {
-      handler: function(route) {
-        this.redirect = route.query && route.query.redirect
-      },
-      immediate: true
-    }
-  },
-  methods: {
-    // 是否显示密码
-    showPwd() {
-      if (this.passwordType === 'password') {
-        this.passwordType = ''
-      } else {
-        this.passwordType = 'password'
-      }
-      this.$nextTick(() => {
-        this.$refs.password.focus()
-      })
+        return {
+            loginForm: {
+                username: '410293095@qq.com',
+                password: 'wo123456789',
+                code: ''
+            },
+            loginRules: {
+                // username: [{ required: true, trigger: 'blur', validator: validateUsername }],
+                // password: [{ required: true, trigger: 'blur', validator: validatePassword }]
+            },
+            loading: false,
+            passwordType: 'password',
+            redirect: undefined
+        };
     },
-    // 登录
-    handleLogin() {
-      this.$refs.loginForm.validate(valid => {
-        if (valid) {
-          this.loading = true
-          this.loginForm = {
-            username: this.loginForm.username,
-            password: sha1(this.loginForm.password),
-            code: this.loginForm.code
-          }
-          this.$store.dispatch('user/login', this.loginForm).then((response) => {
-            this.$message({
-              message: response.message,
-              type: 'success'
-            })
-            this.$router.push({ path: this.redirect || '/' })
-            this.loading = false
-          }).catch(() => {
-            this.loading = false
-          })
-        } else {
-          console.log('error submit!!')
-          return false
+    watch: {
+        $route: {
+            handler: function(route) {
+                this.redirect = route.query && route.query.redirect;
+            },
+            immediate: true
         }
-      })
     },
-    // 获取验证码
-    getCodeFn() {
-      const requestData = {
-        username: this.loginForm.username,
-        module: 'login'
-      }
-      GetSms(requestData).then(response => {
-        this.$message({
-          message: response.message,
-          type: 'success'
-        })
-      }).catch(error => {
-        console.log(error)
-      })
+    methods: {
+    // 是否显示密码
+        showPwd() {
+            if (this.passwordType === 'password') {
+                this.passwordType = '';
+            } else {
+                this.passwordType = 'password';
+            }
+            this.$nextTick(() => {
+                this.$refs.password.focus();
+            });
+        },
+        // 登录
+        handleLogin() {
+            this.$refs.loginForm.validate(valid => {
+                if (valid) {
+                    this.loading = true;
+                    this.loginForm = {
+                        username: this.loginForm.username,
+                        password: sha1(this.loginForm.password),
+                        code: this.loginForm.code
+                    };
+                    this.$store.dispatch('user/login', this.loginForm).then((response) => {
+                        this.$message({
+                            message: response.message,
+                            type: 'success'
+                        });
+                        this.$router.push({ path: this.redirect || '/' });
+                        this.loading = false;
+                    }).catch(() => {
+                        this.loading = false;
+                    });
+                } else {
+                    console.log('error submit!!');
+                    return false;
+                }
+            });
+        },
+        // 获取验证码
+        getCodeFn() {
+            const requestData = {
+                username: this.loginForm.username,
+                module: 'login'
+            };
+            GetSms(requestData).then(response => {
+                this.$message({
+                    message: response.message,
+                    type: 'success'
+                });
+            }).catch(error => {
+                console.log(error);
+            });
+        }
     }
-  }
-}
+};
 </script>
 
 <style lang="scss">

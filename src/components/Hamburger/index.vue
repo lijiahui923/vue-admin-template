@@ -1,5 +1,8 @@
 <template>
-  <div style="padding: 0 15px;" @click="toggleClick">
+  <div
+    style="padding: 0 15px;"
+    @click="toggleClick"
+  >
     <svg
       :class="{'is-active':isActive}"
       class="hamburger"
@@ -15,19 +18,19 @@
 
 <script>
 export default {
-  name: 'Hamburger',
-  props: {
-    isActive: {
-      type: Boolean,
-      default: false
+    name: 'Hamburger',
+    props: {
+        isActive: {
+            type: Boolean,
+            default: false
+        }
+    },
+    methods: {
+        toggleClick() {
+            this.$emit('toggleClick');
+        }
     }
-  },
-  methods: {
-    toggleClick() {
-      this.$emit('toggleClick')
-    }
-  }
-}
+};
 </script>
 
 <style scoped>
