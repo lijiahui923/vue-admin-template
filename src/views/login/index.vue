@@ -45,12 +45,12 @@
       <el-form-item prop="code">
         <el-row :gutter="10">
           <el-col :span="14">
-            <el-input v-model="loginForm.code" placeholder="Code"></el-input>
+            <el-input v-model="loginForm.code" placeholder="Code" />
           </el-col>
           <el-col :span="10">
             <el-button type="success" class="el-button-block" @click="getCodeFn()">code</el-button>
           </el-col>
-      </el-row>
+        </el-row>
       </el-form-item>
       <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">Login</el-button>
 
@@ -64,9 +64,9 @@
 </template>
 
 <script>
-import sha1 from 'js-sha1';
-import { validUsername } from '@/utils/validate'
-import { GetSms, GetTest } from '@/api/user'
+import sha1 from 'js-sha1'
+// import { validUsername } from '@/utils/validate'
+import { GetSms } from '@/api/user'
 export default {
   name: 'Login',
   data() {
@@ -132,7 +132,7 @@ export default {
           this.$store.dispatch('user/login', this.loginForm).then((response) => {
             this.$message({
               message: response.message,
-              type: "success"
+              type: 'success'
             })
             this.$router.push({ path: this.redirect || '/' })
             this.loading = false
@@ -146,28 +146,19 @@ export default {
       })
     },
     // 获取验证码
-    getCodeFn () {
-      let requestData = {
-          username: this.loginForm.username, 
-          module: 'login'
-        }
-        let data = {service: 'skills'}
-      GetTest(data).then(res =>{
-        console.log(res);
-      }).catch(err => {
-        console.log(err);
-      });
+    getCodeFn() {
+      const requestData = {
+        username: this.loginForm.username,
+        module: 'login'
+      }
       GetSms(requestData).then(response => {
         this.$message({
           message: response.message,
-          type: "success"
+          type: 'success'
         })
       }).catch(error => {
-        console.log(error);
+        console.log(error)
       })
-    },
-    changeStatus () {
-      console.log(1);
     }
   }
 }
