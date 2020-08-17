@@ -43,10 +43,10 @@ module.exports = {
         target: process.env.VUE_API_DEV_TARGET,
         changeOrigin: true,
         pathRewrite: {
-          ['^' + process.env.VUE_APP_BASE_API]: '',
-        },
-      },
-    },
+          ['^' + process.env.VUE_APP_BASE_API]: ''
+        }
+      }
+    }
   },
   /** vue3.0内置了webpack所有东西，
    * webpack配置,see https://github.com/vuejs/vue-cli/blob/dev/docs/webpack.md

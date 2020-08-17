@@ -18,6 +18,7 @@
           type="text"
           tabindex="1"
           auto-complete="on"
+          @input="changeStatus(val)"
         />
       </el-form-item>
 
@@ -65,7 +66,7 @@
 <script>
 import sha1 from 'js-sha1';
 import { validUsername } from '@/utils/validate'
-import { GetSms } from '@/api/user'
+import { GetSms, GetTest } from '@/api/user'
 export default {
   name: 'Login',
   data() {
@@ -150,6 +151,12 @@ export default {
           username: this.loginForm.username, 
           module: 'login'
         }
+        let data = {service: 'skills'}
+      GetTest(data).then(res =>{
+        console.log(res);
+      }).catch(err => {
+        console.log(err);
+      });
       GetSms(requestData).then(response => {
         this.$message({
           message: response.message,
@@ -158,6 +165,9 @@ export default {
       }).catch(error => {
         console.log(error);
       })
+    },
+    changeStatus () {
+      console.log(1);
     }
   }
 }

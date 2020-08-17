@@ -91,6 +91,24 @@ export default {
         // console.log(this.list);
         this.listLoading = false
       });
+      let data = {service: 'skills'}
+      axios({
+        method:'post',
+        url:'/api/users/',
+        data
+      })
+        .then((response) => {
+          console.log(response);
+        // this.list = response.data.coming
+        // // console.log(this.list);
+        // this.listLoading = false
+      });
+      // axios.post('/api/users/',parmas).then((response) => {
+      //   let {data} = response.data;
+      //   console.log("测试：",data);
+      // },err=>{
+      //   consot.err("9527",err)
+      // });
     },
     setViewHeight () {
       this.height = this.$root.$el.clientHeight -205;
