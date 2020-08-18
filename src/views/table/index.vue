@@ -1,5 +1,11 @@
 <template>
   <div class="page-container">
+    <TinymceEditor
+      ref="editor"
+      :value="msg"
+      @onClick="onClick"
+    />
+    <button @click="clear" />清空内容
     <el-card>
       <el-form
         :inline="true"
@@ -69,12 +75,12 @@
 </template>
 
 <script>
-// import { getList } from '@/api/table'
 import superTable from "./../../components/common/superTable";
+import TinymceEditor from "./../../components/common/tinymce-editor";
 import { columns } from "./columns";
 import axios from "axios";
 export default {
-    components: { superTable },
+    components: { superTable, TinymceEditor },
     filters: {
         statusFilter(status) {
             const statusMap = {
@@ -95,6 +101,7 @@ export default {
                 user: "",
                 region: "",
             },
+            msg: 'Welcome to Use Tinymce Editor'
         };
     },
     created() {
@@ -115,22 +122,27 @@ export default {
         },
         fetchData() {
             this.listLoading = true;
-            // getList().then(response => {
-            //   this.list = response.data.items
-            //   this.listLoading = false
-            // })
             axios({
                 method: "get",
                 url:
                 "http://mock.studyinghome.com/mock/5f0d436be525ff20854f7c08/maoyan/comingList",
             }).then((response) => {
                 this.list = response.data.coming;
-                // console.log(this.list);
                 this.listLoading = false;
             });
         },
         setViewHeight() {
             this.height = this.$root.$el.clientHeight - 205;
+        },
+        //鼠标单击的事件
+        onClick(e, editor) {
+            console.log('Element clicked');
+            console.log(e);
+            console.log(editor);
+        },
+        //清空内容
+        clear() {
+            this.$refs.editor.clear();
         }
     }
 };
